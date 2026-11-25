@@ -1,0 +1,13 @@
+node_modules/
+*.local
+functions/node_modules/
+.env
+.env.*
+!.env.example
+
+serviceAccountKey.json
+firebase-adminsdk*.json
+*.pem
+
+.DS_Store
+.vscode/

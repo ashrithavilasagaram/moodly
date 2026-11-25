@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodly - Your Day, Your Way</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <span class="brand-icon">✦</span>
+        <span>Moodly</span>
+    </div>
+
+    <div class="top-actions">
+        <button id="notificationBtn" class="notification-btn">🔔 Enable Notifications</button>
+        <button id="themeBtn" class="theme-btn">🌙</button>
+        <button id="logoutBtn" class="logout-btn hidden">Logout</button>
+    </div>
+</header>
+
+<!-- AUTHENTICATION -->
+
+<section id="authSection" class="auth-section">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">✦</div>
+
+        <h1>Welcome to Moodly</h1>
+
+        <p class="auth-subtitle">
+            Organize your tasks according to your mood.
+        </p>
+
+        <div class="auth-tabs">
+            <button id="loginTab" class="auth-tab active">Login</button>
+            <button id="registerTab" class="auth-tab">Register</button>
+        </div>
+
+        <form id="loginForm">
+
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+            <button type="submit" class="primary-btn">Login to Moodly</button>
+
+        </form>
+
+        <form id="registerForm" class="hidden">
+
+            <label>Full Name</label>
+            <input type="text" id="registerName" placeholder="Enter your name" required>
+
+            <label>Email</label>
+            <input type="email" id="registerEmail" placeholder="Enter email" required>
+
+            <label>Password</label>
+            <input type="password" id="registerPassword" placeholder="Minimum 6 characters" minlength="6" required>
+
+            <button type="submit" class="primary-btn">Create Account</button>
+
+        </form>
+
+        <p id="authMessage" class="message"></p>
+
+    </div>
+
+</section>
+
+
+<!-- MAIN APPLICATION -->
+
+<div id="appLayout" class="app-layout hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-profile">
+            <div class="avatar">✦</div>
+            <div>
+                <strong id="userName">User</strong>
+                <small>Welcome back!</small>
+            </div>
+        </div>
+
+        <p class="nav-heading">MENU</p>
+
+        <button class="nav-link active" data-page="dashboardPage">🏠 Dashboard</button>
+        <button class="nav-link" data-page="tasksPage">📋 My Tasks</button>
+        <button class="nav-link" data-page="calendarPage">📅 Calendar</button>
+        <button class="nav-link" data-page="analyticsPage">📊 Analytics</button>
+
+        <p class="nav-heading">PERSONAL</p>
+
+        <button class="nav-link" data-page="profilePage">⚙️ Profile & Settings</button>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-note">
+                <span>💜</span>
+                <p>Small steps create big achievements.</p>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <p id="dashboardMessage" class="message"></p>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboardPage" class="page">
+
+            <div class="welcome-row">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                    <h1>Good day, <span id="userNameHeading">Friend</span>! 👋</h1>
+                    <p>Make today productive, one task at a time.</p>
+                </div>
+
+                <div class="date-box">
+                    📅 <span id="todayDate"></span>
+                </div>
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card purple">
+                    <span>Total Tasks</span>
+                    <h2 id="totalTasks">0</h2>
+                    <p>All your tasks</p>
+                </div>
+
+                <div class="stat-card green">
+                    <span>Completed</span>
+                    <h2 id="completedTasks">0</h2>
+                    <p>Tasks finished</p>
+                </div>
+
+                <div class="stat-card orange">
+                    <span>Pending</span>
+                    <h2 id="pendingTasks">0</h2>
+                    <p>Tasks remaining</p>
+                </div>
+
+                <div class="stat-card blue">
+                    <span>Completion Rate</span>
+                    <h2 id="completionRate">0%</h2>
+                    <p>Your productivity</p>
+                </div>
+
+            </div>
+
+
+            <div class="content-card progress-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h2>Overall Progress</h2>
+                        <p>Keep moving towards your goals.</p>
+                    </div>
+
+                    <h2 id="completionPercentage">0%</h2>
+                </div>
+
+                <div class="progress-track">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+
+                <p id="progressText">0 of 0 tasks completed</p>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h2>Weekly Productivity</h2>
+                        <p>Your completed tasks over the last seven days.</p>
+                    </div>
+                </div>
+
+                <div id="weeklyChart" class="weekly-chart"></div>
+
+            </div>
+
+
+            <div class="content-card recommendation-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h2>✨ Mood-Based Recommendation</h2>
+                        <p>Tell Moodly how you feel today.</p>
+                    </div>
+                </div>
+
+                <form id="recommendationForm" class="recommendation-form">
+
+                    <div class="form-group">
+                        <label>Your current mood</label>
+
+                        <select id="userMood" required>
+                            <option value="happy">😊 Happy</option>
+                            <option value="motivated">🔥 Motivated</option>
+                            <option value="calm">😌 Calm</option>
+                            <option value="tired">😴 Tired</option>
+                            <option value="sad">😔 Sad</option>
+                            <option value="stressed">😵 Stressed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Available time (minutes)</label>
+                        <input type="number" id="availableTime" min="1" max="1440" value="60" required>
+                    </div>
+
+                    <button class="primary-btn" type="submit">Find My Best Task ✨</button>
+
+                </form>
+
+                <div id="recommendationResult" class="recommendation-result">
+                    Your recommended task will appear here.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TASKS PAGE -->
+
+        <section id="tasksPage" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">STAY ORGANIZED</p>
+                    <h1>My Tasks 📋</h1>
+                    <p>Add and manage your personal tasks.</p>
+                </div>
+            </div>
+
+
+            <div class="content-card">
+
+                <h2>Add a New Task</h2>
+
+                <form id="taskForm">
+
+                    <div class="form-group">
+                        <label>Task Name</label>
+                        <input type="text" id="taskTitle" placeholder="What do you need to do?" required>
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="taskPriority">
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select id="taskDifficulty">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" id="taskDuration" min="1" max="1440" value="30" required>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input type="datetime-local" id="taskDeadline">
+                    </div>
+
+                    <button type="submit" class="primary-btn">+ Add My Task</button>
+
+                </form>
+
+                <p id="taskMessage" class="message"></p>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h2>Your Task List</h2>
+                        <p>Manage your daily activities.</p>
+                    </div>
+
+                    <select id="taskFilter" class="filter-select">
+                        <option value="all">All Tasks</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div id="taskList" class="task-list"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CALENDAR PAGE -->
+
+        <section id="calendarPage" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">PLAN YOUR DAYS</p>
+                    <h1>Calendar 📅</h1>
+                    <p>View your tasks according to their deadlines.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+
+                <div class="calendar-header">
+                    <button id="prevMonth">←</button>
+                    <h2 id="calendarMonth"></h2>
+                    <button id="nextMonth">→</button>
+                </div>
+
+                <div id="calendarGrid" class="calendar-grid"></div>
+
+            </div>
+
+            <div class="content-card">
+                <h2>Selected Date Tasks</h2>
+                <div id="calendarTasks"></div>
+            </div>
+
+        </section>
+
+
+        <!-- ANALYTICS PAGE -->
+
+        <section id="analyticsPage" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">YOUR PERFORMANCE</p>
+                    <h1>Analytics 📊</h1>
+                    <p>Understand your productivity.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card purple">
+                    <span>Total Tasks</span>
+                    <h2 id="analyticsTotal">0</h2>
+                </div>
+
+                <div class="stat-card green">
+                    <span>Completed</span>
+                    <h2 id="analyticsCompleted">0</h2>
+                </div>
+
+                <div class="stat-card orange">
+                    <span>Pending</span>
+                    <h2 id="analyticsPending">0</h2>
+                </div>
+
+                <div class="stat-card blue">
+                    <span>Completion Rate</span>
+                    <h2 id="analyticsRate">0%</h2>
+                </div>
+
+            </div>
+
+            <div class="content-card">
+
+                <h2>Task Distribution</h2>
+
+                <p>Completed tasks</p>
+                <div class="progress-track">
+                    <div id="completedDistribution" class="progress-fill"></div>
+                </div>
+
+                <p>Pending tasks</p>
+                <div class="progress-track">
+                    <div id="pendingDistribution" class="progress-fill orange-fill"></div>
+                </div>
+
+            </div>
+
+            <div class="content-card">
+                <h2>Weekly Performance</h2>
+                <div id="analyticsChart" class="weekly-chart"></div>
+            </div>
+
+        </section>
+
+
+        <!-- PROFILE PAGE -->
+
+        <section id="profilePage" class="page hidden">
+
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">YOUR ACCOUNT</p>
+                    <h1>Profile & Settings ⚙️</h1>
+                    <p>Manage your Moodly account.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+
+                <div class="profile-avatar">✦</div>
+
+                <h2 id="profileDisplayName">Your profile</h2>
+                <p id="profileEmail"></p>
+
+                <form id="profileForm">
+
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="profileName" required>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Save Profile</button>
+
+                </form>
+
+                <p id="profileMessage" class="message"></p>
+
+            </div>
+
+            <div class="content-card">
+
+                <h2>Appearance</h2>
+                <p>Change your Moodly theme.</p>
+                <button id="profileThemeBtn" class="secondary-btn">Toggle Dark Mode 🌙</button>
+
+            </div>
+
+            <div class="content-card">
+
+                <h2>Notifications</h2>
+                <p>Enable browser push notifications for task reminders.</p>
+                <button id="profileNotificationBtn" class="primary-btn">Enable Push Notifications 🔔</button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
